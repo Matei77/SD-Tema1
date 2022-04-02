@@ -5,6 +5,6 @@
 
 int CheckCard(card_t card);
 
-int CheckIndex(doubly_linked_list_t *list, int deck_index);
+int CheckIndex(doubly_linked_list_t *list, unsigned int deck_index);
 
 #endif

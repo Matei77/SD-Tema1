@@ -4,8 +4,8 @@
 
 #include "types.h"
 
-void AddDeck(doubly_linked_list_t *set_of_decks);
+void AddDeck(doubly_linked_list_t *set_of_decks, unsigned int argc, char *argv[]);
 
-void DelDeck(doubly_linked_list_t *set_of_decks);
+void DelDeck(doubly_linked_list_t *set_of_decks, unsigned int argc, char *argv[]);
 
 #endif

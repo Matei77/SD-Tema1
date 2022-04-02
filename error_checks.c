@@ -20,7 +20,7 @@ int CheckCard(card_t card)
 }
 
 // This function return 1 if an index is valid and 0 otherwise
-int CheckIndex(doubly_linked_list_t *list, int deck_index)
+int CheckIndex(doubly_linked_list_t *list, unsigned int deck_index)
 {
 	if (list->size > deck_index)
 		return 1;
