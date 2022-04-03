@@ -10,10 +10,10 @@ int CheckCard(card_t card)
 	if (card.value < 1 || card.value > 14)
 		return 0;
 
-	if (strcmp(card.symbol, "HEART") == 0 &&
-		strcmp(card.symbol, "SPADE") == 0 &&
-		strcmp(card.symbol, "DIAMOND") == 0 && 
-		strcmp(card.symbol, "CLUB") == 0)
+	if (strcmp(card.symbol, "HEART") != 0 &&
+		strcmp(card.symbol, "SPADE") != 0 &&
+		strcmp(card.symbol, "DIAMOND") != 0 && 
+		strcmp(card.symbol, "CLUB") != 0)
 		return 0;
 
 	return 1;

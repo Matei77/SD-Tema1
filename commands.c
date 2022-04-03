@@ -28,6 +28,7 @@ void AddDeck(doubly_linked_list_t *set_of_decks, unsigned int argc, char *argv[]
 
 	int i = 0;
 	while (i < cards_nr) {
+		// TODO: use fgets for reading the values
 		scanf("%d %9s", &card.value, card.symbol);
 
 		if (CheckCard(card)) {
@@ -57,11 +58,12 @@ void DelDeck(doubly_linked_list_t *set_of_decks, unsigned int argc, char *argv[]
 		return;
 	}
 	
-	if (!CheckIndex(set_of_decks, (unsigned int)deck_index)) {
-		printf("The prvided index is out of bounds for the deck list.\n");
+	if (!CheckIndex(set_of_decks, deck_index)) {
+		printf("The provided index is out of bounds for the deck list.\n");
 		return;
 	}
 	dll_node_t *deck = dll_remove_nth_node(set_of_decks, deck_index);
 	dll_free((doubly_linked_list_t**)(&deck->data));
 	printf("The deck %ld was successfully deleted.\n", deck_index);
 }
+

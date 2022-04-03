@@ -29,11 +29,12 @@ int main(void)
 			argc++;
 			token = strtok(NULL, " \n");
 		}
-
-		if (strcmp(command, "ADD_DECK") == 0) {
-			AddDeck(set_of_decks, argc, argv);
-		} else if (strcmp(command, "DEL_DECK") == 0) {
-			DelDeck(set_of_decks, argc, argv);
+		if (command != NULL) {
+			if (strcmp(command, "ADD_DECK") == 0) {
+				AddDeck(set_of_decks, argc, argv);
+			} else if (strcmp(command, "DEL_DECK") == 0) {
+				DelDeck(set_of_decks, argc, argv);
+			}
 		}
 	}
 	return 0;

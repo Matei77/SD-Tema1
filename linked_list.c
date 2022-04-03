@@ -62,6 +62,7 @@ void dll_add_nth_node(doubly_linked_list_t *list, unsigned int n,
 	} else if (n == list->size) {
 		node->next = NULL;
 		node->prev = list->tail;
+		list->tail->next = node;
 		list->tail = node;
 	} else {
 		dll_node_t *it = list->head;
@@ -127,7 +128,7 @@ void dll_free(doubly_linked_list_t **pp_list)
 	dll_node_t *node = (*pp_list)->head;
 	dll_node_t *next;
 
-	for (unsigned int i = 0; i < (*pp_list)->size; i++) {
+	while (node != NULL) {
 		next = node->next;
 		free(node->data);
 		free(node);
