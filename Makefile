@@ -4,7 +4,7 @@ CC=gcc
 CFLAGS=-g -Wall -Wextra -std=c99
 
 # define targets
-DEPEND=main.c linked_list.c commands.c error_checks.c 
+DEPEND=main.c linked_list.c commands.c utils.c 
 
 build: tema1
 

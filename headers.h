@@ -3,7 +3,7 @@
 #define HEADERS_H
 
 #include "commands.h"
-#include "error_checks.h"
+#include "utils.h"
 #include "linked_list.h"
 #include "types.h"
 

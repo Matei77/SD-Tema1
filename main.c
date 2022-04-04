@@ -31,9 +31,17 @@ int main(void)
 		}
 		if (command != NULL) {
 			if (strcmp(command, "ADD_DECK") == 0) {
-				AddDeck(set_of_decks, argc, argv);
+				AddDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "DEL_DECK") == 0) {
-				DelDeck(set_of_decks, argc, argv);
+				DelDeckCommand(set_of_decks, argc, argv);
+			} else if (strcmp(command, "DEL_CARD") == 0) {
+				DelCard(set_of_decks, argc, argv);
+			} else if (strcmp(command, "ADD_CARDS") == 0) {
+				AddCards(set_of_decks, argc, argv);
+			} else if (strcmp(command, "DECK_NUMBER") == 0) {
+				DeckNumber(set_of_decks, argc);
+			} else if (strcmp(command, "DECK_LEN") == 0) {
+				DeckLen(set_of_decks, argc, argv);
 			}
 		}
 	}
