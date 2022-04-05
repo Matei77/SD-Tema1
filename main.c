@@ -56,6 +56,8 @@ int main(void)
 				ShowDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "SHOW_ALL") == 0) {
 				ShowAllCommand(set_of_decks, argc);
+			} else if (strcmp(command, "SORT_DECK") == 0) {
+				SortDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "EXIT") == 0) {
 				ExitCommand(set_of_decks, argc);
 				return 0;

@@ -34,10 +34,13 @@ void ReverseDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 						char *argv[]);
 
 void ShowDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
-						char *argv[]);
+					 char *argv[]);
 
 void ShowAllCommand(doubly_linked_list_t *set_of_decks, unsigned int argc);
 
 void ExitCommand(doubly_linked_list_t *set_of_decks, unsigned int argc);
+
+void SortDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+			  char *argv[]);
 
 #endif

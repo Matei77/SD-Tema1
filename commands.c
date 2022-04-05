@@ -53,8 +53,7 @@ void DelDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 
 	// check if the deck index is not valid
 	if (!CheckIndex(set_of_decks, deck_index)) {
-		printf("The provided index is out of bounds for the %lu deck list.\n",
-			   deck_index);
+		printf("The provided index is out of bounds for the deck list.\n");
 		return;
 	}
 
@@ -101,8 +100,9 @@ void DelCard(doubly_linked_list_t *set_of_decks, unsigned int argc,
 		return;
 	}
 	if (((doubly_linked_list_t *)(deck->data))->size == 1) {
-		dll_node_t *deck = dll_remove_nth_node(set_of_decks, deck_index);
-		dll_free((doubly_linked_list_t **)(&deck->data));
+		// dll_node_t *deck = dll_remove_nth_node(set_of_decks, deck_index);
+		// dll_free((doubly_linked_list_t **)(&deck->data));
+		DelDeck(set_of_decks, deck_index);
 	} else {
 		dll_node_t *card = dll_remove_nth_node(
 			(doubly_linked_list_t *)(deck->data), card_index);
@@ -126,7 +126,7 @@ void AddCards(doubly_linked_list_t *set_of_decks, unsigned int argc,
 		printf("Invalid command. Please try again.\n");
 		return;
 	}
-	unsigned long cards_nr = strtoul(argv[1], &endptr, 10);
+	long cards_nr = strtol(argv[1], &endptr, 10);
 	if (argv[0] == endptr || *endptr != '\0') {
 		printf("Invalid command. Please try again.\n");
 		return;
@@ -143,21 +143,38 @@ void AddCards(doubly_linked_list_t *set_of_decks, unsigned int argc,
 
 	card_t card;
 
-	unsigned int i = 0;
+	int i = 0;
 	while (i < cards_nr) {
-		// TODO: use fgets for reading the values
-		scanf("%d %9s", &card.value, card.symbol);
+		char card_line[CARD_LEN];
+		char *value = NULL, *symbol = NULL;
 
-		if (CheckCard(card)) {
-			dll_add_nth_node((doubly_linked_list_t *)(deck->data),
-							 ((doubly_linked_list_t *)(deck->data))->size,
-							 &card);
-			++i;
-		} else
-			printf("The provided card is not a valid one.\n");
+		fgets(card_line, CARD_LEN - 1, stdin);
+
+		char *token = strtok(card_line, " \n");
+		value = token;
+
+		if (token != NULL) {
+			token = strtok(NULL, " \n");
+			symbol = token;
+		}
+
+		if (value != NULL && symbol != NULL) {
+			strncpy(card.symbol, symbol, SYMBOL_LEN - 1);
+			char *endptr;
+			card.value = strtol(value, &endptr, 10);
+			if (value != endptr && *endptr == '\0') {
+				if (CheckCard(card)) {
+					dll_add_nth_node(
+						(doubly_linked_list_t *)(deck->data),
+						((doubly_linked_list_t *)(deck->data))->size, &card);
+					++i;
+				} else
+					printf("The provided card is not a valid one.\n");
+			} else
+				printf("The provided card is not a valid one.\n");
+		}
 	}
-
-	printf("The cards wre successfully added to deck %lu\n", deck_index);
+	printf("The cards were successfully added to deck %lu.\n", deck_index);
 }
 
 void DeckNumber(doubly_linked_list_t *set_of_decks, unsigned int argc)
@@ -278,6 +295,7 @@ void MergeDecks(doubly_linked_list_t *set_of_decks, unsigned int argc,
 	doubly_linked_list_t *deck1 = ((doubly_linked_list_t *)(deck_it->data));
 
 	// Find second deck
+	deck_it = set_of_decks->head;
 	for (unsigned int i = 0; i < deck_index2; i++, deck_it = deck_it->next)
 		;
 	doubly_linked_list_t *deck2 = ((doubly_linked_list_t *)(deck_it->data));
@@ -301,9 +319,13 @@ void MergeDecks(doubly_linked_list_t *set_of_decks, unsigned int argc,
 		dll_add_nth_node(new_deck, new_deck->size, card_it2->data);
 		card_it2 = card_it2->next;
 	}
-
-	DelDeck(set_of_decks, deck_index1);
-	DelDeck(set_of_decks, deck_index2);
+	if (deck_index1 > deck_index2) {
+		DelDeck(set_of_decks, deck_index1);
+		DelDeck(set_of_decks, deck_index2);
+	} else {
+		DelDeck(set_of_decks, deck_index2);
+		DelDeck(set_of_decks, deck_index1);
+	}
 
 	dll_add_nth_node(set_of_decks, set_of_decks->size, new_deck);
 	free(new_deck);
@@ -353,10 +375,9 @@ void SplitDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 	}
 
 	// check if a deck will be empty after split
-	if (split_index == ((doubly_linked_list_t *)(deck_it->data))->size - 1 ||
-		split_index == 0) {
-		printf("The %lu was successfully split by index %lu.\n", deck_index,
-			   split_index);
+	if (split_index == 0) {
+		printf("The deck %lu was successfully split by index %lu.\n",
+			   deck_index, split_index);
 		return;
 	}
 
@@ -364,7 +385,7 @@ void SplitDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 	SplitDeck(set_of_decks, (doubly_linked_list_t *)(deck_it->data), deck_index,
 			  split_index);
 
-	printf("The %lu was successfully split by index %lu.\n", deck_index,
+	printf("The deck %lu was successfully split by index %lu.\n", deck_index,
 		   split_index);
 }
 
@@ -448,7 +469,6 @@ void ShowAllCommand(doubly_linked_list_t *set_of_decks, unsigned int argc)
 	for (unsigned int i = 0; i < set_of_decks->size; ++i) {
 		doubly_linked_list_t *deck = (doubly_linked_list_t *)(deck_it->data);
 		ShowDeck(deck, i);
-		printf("...\n");
 		deck_it = deck_it->next;
 	}
 }
@@ -461,7 +481,37 @@ void ExitCommand(doubly_linked_list_t *set_of_decks, unsigned int argc)
 	}
 
 	while (set_of_decks->size) {
-		DelDeck(set_of_decks, 0); 
+		DelDeck(set_of_decks, 0);
 	}
 	dll_free(&set_of_decks);
+}
+
+void SortDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+			  char *argv[])
+{
+	if (argc != 1) {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	char *endptr;
+	unsigned long deck_index = strtoul(argv[0], &endptr, 10);
+	if (argv[0] == endptr || *endptr != '\0') {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	if (!CheckIndex(set_of_decks, deck_index)) {
+		printf("The provided index is out of bounds for the deck list.\n");
+		return;
+	}
+
+	dll_node_t *deck_it = set_of_decks->head;
+	for (unsigned int i = 0; i < deck_index; i++, deck_it = deck_it->next)
+		;
+	doubly_linked_list_t *deck = (doubly_linked_list_t *)(deck_it->data);
+
+	SortDeck(deck);
+
+	printf("The deck %lu was successfully sorted.\n", deck_index);
 }

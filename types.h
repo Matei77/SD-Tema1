@@ -3,6 +3,7 @@
 #define TYPES_H
 
 #define SYMBOL_LEN 10
+#define CARD_LEN 20
 
 typedef struct dll_node_t {
 	void *data;
