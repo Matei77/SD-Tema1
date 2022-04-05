@@ -12,6 +12,9 @@ void AddDeck(doubly_linked_list_t *set_of_decks, unsigned int cards_nr);
 
 void DelDeck(doubly_linked_list_t *set_of_decks, unsigned int deck_index);
 
+void SplitDeck(doubly_linked_list_t *set_of_decks, doubly_linked_list_t *deck,
+			   unsigned int deck_index, unsigned int split_index);
+
 void ShowDeck(doubly_linked_list_t *deck, unsigned int deck_index);
 
 #endif

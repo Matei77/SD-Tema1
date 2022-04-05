@@ -26,7 +26,7 @@ int main(void)
 		argc = 0;
 		if (token != NULL)
 			token = strtok(NULL, " \n");
-		while (token != NULL) {
+		while (token != NULL && argc <= MAX_ARG_COUNT) {
 			argv[argc] = token;
 			argc++;
 			token = strtok(NULL, " \n");
@@ -44,8 +44,23 @@ int main(void)
 				DeckNumber(set_of_decks, argc);
 			} else if (strcmp(command, "DECK_LEN") == 0) {
 				DeckLen(set_of_decks, argc, argv);
-			}
+			} else if (strcmp(command, "SHUFFLE_DECK") == 0) {
+				ShuffleDeck(set_of_decks, argc, argv);
+			} else if (strcmp(command, "MERGE_DECKS") == 0) {
+				MergeDecks(set_of_decks, argc, argv);
+			} else if (strcmp(command, "SPLIT_DECK") == 0) {
+				SplitDeckCommand(set_of_decks, argc, argv);
+			} else if (strcmp(command, "REVERSE_DECK") == 0) {
+				ReverseDeckCommand(set_of_decks, argc, argv);
+			} else if (strcmp(command, "SHOW_DECK") == 0) {
+				ShowDeckCommand(set_of_decks, argc, argv);
+			} else if (strcmp(command, "SHOW_ALL") == 0) {
+				ShowAllCommand(set_of_decks, argc);
+			} else if (strcmp(command, "EXIT") == 0) {
+				ExitCommand(set_of_decks, argc);
+				return 0;
+			} else
+				printf("Invalid command. Please try again.\n");
 		}
 	}
-	return 0;
 }
