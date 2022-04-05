@@ -71,3 +71,13 @@ void SplitDeck(doubly_linked_list_t *set_of_decks, doubly_linked_list_t *deck,
 
 	dll_add_nth_node(set_of_decks, deck_index+1, new_deck);
 }
+
+void ShowDeck(doubly_linked_list_t *deck, unsigned int deck_index)
+{
+	dll_node_t *card = deck->head;
+	printf("Deck %ld:\n", deck_index);
+	while(card) {
+		printf("\t%d %s\n", ((card_t *)(card->data))->value,  ((card_t *)(card->data))->symbol);
+		card = card->next;
+	}
+}

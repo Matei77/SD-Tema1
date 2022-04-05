@@ -305,6 +305,9 @@ void MergeDecks(doubly_linked_list_t *set_of_decks, unsigned int argc,
 	DelDeck(set_of_decks, deck_index2);
 
 	dll_add_nth_node(set_of_decks, set_of_decks->size, new_deck);
+
+	printf("The deck %ld and the deck %ld were successfully merged.\n",
+		   deck_index1, deck_index2);
 }
 
 void SplitDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
@@ -365,7 +368,98 @@ void SplitDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 }
 
 void ReverseDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
-					  char *argv[])
+						char *argv[])
 {
-	
+	if (argc != 1) {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	char *endptr;
+	unsigned long deck_index = strtoul(argv[0], &endptr, 10);
+	if (argv[0] == endptr || *endptr != '\0') {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	if (!CheckIndex(set_of_decks, deck_index)) {
+		printf("The provided index is out of bounds for the deck list.\n");
+		return;
+	}
+
+	dll_node_t *deck_it = set_of_decks->head;
+	for (unsigned int i = 0; i < deck_index; i++, deck_it = deck_it->next)
+		;
+	doubly_linked_list_t *deck = (doubly_linked_list_t*)(deck_it->data);
+
+	dll_node_t *card_it	= deck->head;
+	dll_node_t *aux;
+
+	for(unsigned int i = 0; i < deck->size; i++) {
+		aux = card_it->next;
+		card_it->next = card_it->prev;
+		card_it->prev = aux;
+		card_it = aux;
+	}
+
+	aux = deck->head;
+	deck->head = deck->tail;
+	deck->tail = aux;
+
+	printf("The deck %ld was successfully reversed.\n", deck_index);
+}
+
+void ShowDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+						char *argv[])
+{
+	if (argc != 1) {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	char *endptr;
+	unsigned long deck_index = strtoul(argv[0], &endptr, 10);
+	if (argv[0] == endptr || *endptr != '\0') {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	if (!CheckIndex(set_of_decks, deck_index)) {
+		printf("The provided index is out of bounds for the deck list.\n");
+		return;
+	}
+
+	dll_node_t *deck_it = set_of_decks->head;
+	for (unsigned int i = 0; i < deck_index; i++, deck_it = deck_it->next)
+		;
+	doubly_linked_list_t *deck = (doubly_linked_list_t*)(deck_it->data);
+
+	ShowDeck(deck, deck_index);
+}
+
+void ShowAllCommand(doubly_linked_list_t *set_of_decks, unsigned int argc)
+{
+	if (argc != 0) {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+	dll_node_t *deck_it = set_of_decks->head;
+	for (unsigned int i = 0; i < set_of_decks->size; ++i) {
+		doubly_linked_list_t *deck = (doubly_linked_list_t*)(deck_it->data);
+		ShowDeck(deck, i);
+		printf("...\n");
+	}
+}
+
+void ExitCommand(doubly_linked_list_t *set_of_decks, unsigned int argc)
+{
+	if (argc != 0) {
+		printf("Invalid command. Please try again.\n");
+		return;
+	}
+
+	while (set_of_decks->size) {
+		DelDeck(set_of_decks, 0);
+	}
+	dll_free(&set_of_decks);
 }

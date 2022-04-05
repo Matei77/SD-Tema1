@@ -18,6 +18,8 @@ int main(void)
 	char *argv[MAX_ARG_COUNT];
 
 	while (1) {
+
+		// parse command and arguments
 		fgets(command_line, LEN - 1, stdin);
 		char *token = strtok(command_line, " \n");
 		char *command = token;
