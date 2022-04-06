@@ -66,8 +66,7 @@ void dll_add_nth_node(doubly_linked_list_t *list, unsigned int n,
 		list->tail = node;
 	} else {
 		dll_node_t *it = list->head;
-		for (unsigned int i = 0; i < n - 1; i++, it = it->next)
-			;
+		for (unsigned int i = 0; i < n - 1; i++, it = it->next) { }
 		node->next = it->next;
 		node->next->prev = node;
 		node->prev = it;
@@ -101,10 +100,9 @@ dll_node_t *dll_remove_nth_node(doubly_linked_list_t *list, unsigned int n)
 		node = list->tail;
 		list->tail->prev->next = NULL;
 		list->tail = list->tail->prev;
-	} else {	
+	} else {
 		dll_node_t *it = list->head;
-		for (unsigned int i = 0; i < n - 1; i++, it = it->next)
-			;
+		for (unsigned int i = 0; i < n - 1; i++, it = it->next) { }
 		node = it->next;
 		it->next->next->prev = it;
 		it->next = it->next->next;

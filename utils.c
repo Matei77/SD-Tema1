@@ -7,9 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 int CompareCards(card_t *card1, card_t *card2);
-
 
 // This function returns 1 if a card is valid and 0 otherwise
 int CheckCard(card_t card)
@@ -63,10 +61,12 @@ void AddDeck(doubly_linked_list_t *set_of_decks, int cards_nr)
 				if (CheckCard(card)) {
 					dll_add_nth_node(deck, deck->size, &card);
 					++i;
-				} else
+				} else {
 					printf("The provided card is not a valid one.\n");
-			} else
+				}
+			} else {
 				printf("The provided card is not a valid one.\n");
+			}
 		}
 	}
 
@@ -89,8 +89,7 @@ void SplitDeck(doubly_linked_list_t *set_of_decks, doubly_linked_list_t *deck,
 {
 	doubly_linked_list_t *new_deck = dll_create(sizeof(card_t));
 	dll_node_t *card_it = deck->head;
-	for (unsigned int i = 0; i < split_index; i++, card_it = card_it->next)
-		;
+	for (unsigned int i = 0; i < split_index; i++, card_it = card_it->next) { }
 	while (card_it) {
 		dll_add_nth_node(new_deck, new_deck->size, card_it->data);
 		card_it = card_it->next;
@@ -118,10 +117,12 @@ void ShowDeck(doubly_linked_list_t *deck, unsigned int deck_index)
 
 void SortDeck(doubly_linked_list_t *deck)
 {
-	for (dll_node_t *card_it1 = deck->head; card_it1->next; card_it1 = card_it1->next)
-		for (dll_node_t *card_it2 = card_it1->next; card_it2; card_it2 = card_it2->next)
-		{
-			if (!CompareCards((card_t *)(card_it1->data), (card_t *)(card_it2->data))) {
+	for (dll_node_t *card_it1 = deck->head; card_it1->next;
+		 card_it1 = card_it1->next)
+		for (dll_node_t *card_it2 = card_it1->next; card_it2;
+			 card_it2 = card_it2->next) {
+			if (!CompareCards((card_t *)(card_it1->data),
+							  (card_t *)(card_it2->data))) {
 				void *aux = card_it1->data;
 				card_it1->data = card_it2->data;
 				card_it2->data = aux;
@@ -132,14 +133,14 @@ void SortDeck(doubly_linked_list_t *deck)
 // This function returns 1 if <card1> is smaller than <card2> and 0 otherwise
 int CompareCards(card_t *card1, card_t *card2)
 {
-	if (card1->value < card2->value)
+	if (card1->value < card2->value) {
 		return 1;
-	else if (card1->value > card2->value)
+	} else if (card1->value > card2->value) {
 		return 0;
-	else {
+	} else {
 		int s1, s2;
-		char *symbols[] = {"HEART", "SPADE", "DIAMOND", "CLUB"};
-		for (int i = 0; i <=3; i++) {
+		char *symbols[] = { "HEART", "SPADE", "DIAMOND", "CLUB" };
+		for (int i = 0; i <= 3; i++) {
 			if (strcmp(card1->symbol, symbols[i]) == 0)
 				s1 = i;
 			if (strcmp(card2->symbol, symbols[i]) == 0)

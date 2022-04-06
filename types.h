@@ -1,6 +1,6 @@
 // Copyright Ionescu Matei-Stefan - 313CAb - 2021-2022
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef TYPES_H_
+#define TYPES_H_
 
 #define SYMBOL_LEN 10
 #define CARD_LEN 20
@@ -21,4 +21,4 @@ typedef struct card_t {
 	char symbol[SYMBOL_LEN];
 } card_t;
 
-#endif
+#endif  // TYPES_H_

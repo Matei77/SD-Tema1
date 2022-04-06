@@ -1,6 +1,6 @@
 // Copyright Ionescu Matei-Stefan - 313CAb - 2021-2022
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_H_
+#define UTILS_H_
 
 #include "types.h"
 
@@ -19,4 +19,4 @@ void ShowDeck(doubly_linked_list_t *deck, unsigned int deck_index);
 
 void SortDeck(doubly_linked_list_t *deck);
 
-#endif
+#endif  // UTILS_H_

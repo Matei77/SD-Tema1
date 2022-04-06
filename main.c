@@ -5,22 +5,21 @@
 
 #include "headers.h"
 
-#define LEN 30
-#define MAX_ARG_COUNT 10
+#define COMMAND_LEN 30
+#define MAX_ARG_COUNT 5
 
 int main(void)
 {
 	doubly_linked_list_t *set_of_decks;
 	set_of_decks = dll_create(sizeof(doubly_linked_list_t));
 
-	char command_line[LEN];
+	char command_line[COMMAND_LEN];
 	unsigned int argc;
 	char *argv[MAX_ARG_COUNT];
 
 	while (1) {
-
 		// parse command and arguments
-		fgets(command_line, LEN - 1, stdin);
+		fgets(command_line, COMMAND_LEN - 1, stdin);
 		char *token = strtok(command_line, " \n");
 		char *command = token;
 		argc = 0;
@@ -61,8 +60,9 @@ int main(void)
 			} else if (strcmp(command, "EXIT") == 0) {
 				ExitCommand(set_of_decks, argc);
 				return 0;
-			} else
+			} else {
 				printf("Invalid command. Please try again.\n");
+			}
 		}
 	}
 }

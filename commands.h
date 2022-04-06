@@ -1,6 +1,6 @@
 // Copyright Ionescu Matei-Stefan - 313CAb - 2021-2022
-#ifndef COMMANDS_H
-#define COMMANDS_H
+#ifndef COMMANDS_H_
+#define COMMANDS_H_
 
 #include "types.h"
 
@@ -43,4 +43,4 @@ void ExitCommand(doubly_linked_list_t *set_of_decks, unsigned int argc);
 void SortDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 			  char *argv[]);
 
-#endif
+#endif  // COMMANDS_H_
