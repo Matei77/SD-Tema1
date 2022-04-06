@@ -8,45 +8,38 @@
 #define COMMAND_LEN 30
 #define MAX_ARG_COUNT 5
 
+void ParseCommand(char *command_line, char **command, char *argv[],
+				  unsigned int *argc);
+
 int main(void)
 {
 	doubly_linked_list_t *set_of_decks;
 	set_of_decks = dll_create(sizeof(doubly_linked_list_t));
 
-	char command_line[COMMAND_LEN];
 	unsigned int argc;
-	char *argv[MAX_ARG_COUNT];
+	char command_line[COMMAND_LEN], *command = NULL, *argv[MAX_ARG_COUNT];
 
 	while (1) {
 		// parse command and arguments
-		fgets(command_line, COMMAND_LEN - 1, stdin);
-		char *token = strtok(command_line, " \n");
-		char *command = token;
-		argc = 0;
-		if (token != NULL)
-			token = strtok(NULL, " \n");
-		while (token != NULL && argc <= MAX_ARG_COUNT) {
-			argv[argc] = token;
-			argc++;
-			token = strtok(NULL, " \n");
-		}
+		ParseCommand(command_line, &command, argv, &argc);
+
 		if (command != NULL) {
 			if (strcmp(command, "ADD_DECK") == 0) {
 				AddDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "DEL_DECK") == 0) {
 				DelDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "DEL_CARD") == 0) {
-				DelCard(set_of_decks, argc, argv);
+				DelCardCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "ADD_CARDS") == 0) {
-				AddCards(set_of_decks, argc, argv);
+				AddCardsCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "DECK_NUMBER") == 0) {
-				DeckNumber(set_of_decks, argc);
+				DeckNumberCommand(set_of_decks, argc);
 			} else if (strcmp(command, "DECK_LEN") == 0) {
-				DeckLen(set_of_decks, argc, argv);
+				DeckLenCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "SHUFFLE_DECK") == 0) {
-				ShuffleDeck(set_of_decks, argc, argv);
+				ShuffleDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "MERGE_DECKS") == 0) {
-				MergeDecks(set_of_decks, argc, argv);
+				MergeDecksCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "SPLIT_DECK") == 0) {
 				SplitDeckCommand(set_of_decks, argc, argv);
 			} else if (strcmp(command, "REVERSE_DECK") == 0) {
@@ -64,5 +57,24 @@ int main(void)
 				printf("Invalid command. Please try again.\n");
 			}
 		}
+	}
+}
+
+void ParseCommand(char *command_line, char **command, char *argv[],
+				  unsigned int *argc)
+{
+	fgets(command_line, COMMAND_LEN - 1, stdin);
+
+	char *token = strtok(command_line, " \n");
+	*command = token;
+
+	if (token != NULL)
+		token = strtok(NULL, " \n");
+
+	*argc = 0;
+	while (token != NULL && (*argc) <= MAX_ARG_COUNT) {
+		argv[(*argc)] = token;
+		(*argc)++;
+		token = strtok(NULL, " \n");
 	}
 }

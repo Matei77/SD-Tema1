@@ -135,3 +135,12 @@ void dll_free(doubly_linked_list_t **pp_list)
 
 	free(*pp_list);
 }
+
+// This function will return the nth node from a list
+dll_node_t *get_nth_node(doubly_linked_list_t *list, unsigned int n)
+{
+	dll_node_t *it = list->head;
+	for (unsigned int i = 0; i < n; i++, it = it->next) { }
+
+	return it;
+}

@@ -31,11 +31,10 @@ int CheckIndex(doubly_linked_list_t *list, unsigned int deck_index)
 	return 0;
 }
 
-// This function creates a new deck with a number of <cards_nr> cards that will
-// be provided by the user via stdin
-void AddDeck(doubly_linked_list_t *set_of_decks, int cards_nr)
+// This function adds <cards_nr> cards to a deck. The cards will be provided by
+// the user via stdin
+void ReadCardsToDeck(doubly_linked_list_t *deck, int cards_nr)
 {
-	doubly_linked_list_t *deck = dll_create(sizeof(card_t));
 	card_t card;
 
 	int i = 0;
@@ -69,9 +68,6 @@ void AddDeck(doubly_linked_list_t *set_of_decks, int cards_nr)
 			}
 		}
 	}
-
-	dll_add_nth_node(set_of_decks, set_of_decks->size, deck);
-	free(deck);
 }
 
 // This function deletes the deck at position <deck_index> from the list of
@@ -79,11 +75,82 @@ void AddDeck(doubly_linked_list_t *set_of_decks, int cards_nr)
 void DelDeck(doubly_linked_list_t *set_of_decks, unsigned int deck_index)
 {
 	dll_node_t *deck = dll_remove_nth_node(set_of_decks, deck_index);
+
 	doubly_linked_list_t *current_deck = (doubly_linked_list_t *)(deck->data);
+
 	dll_free(&current_deck);
 	free(deck);
 }
 
+// This function shuffles a deck by switching the first half of the deck with
+// the second one
+void ShuffleDeck(doubly_linked_list_t *deck)
+{
+	// find the middle of the deck
+	unsigned int halfsize = deck->size / 2;
+	dll_node_t *middle_of_deck = get_nth_node(deck, halfsize);
+
+	// switch the first half of the deck with the second one
+	deck->head->prev = deck->tail;
+	deck->tail->next = deck->head;
+
+	deck->tail = middle_of_deck->prev;
+	deck->head = middle_of_deck;
+
+	middle_of_deck->prev->next = NULL;
+	middle_of_deck->prev = NULL;
+}
+
+// This function merges two decks and adds the resuting deck to end of the list
+void MergeDecks(doubly_linked_list_t *set_of_decks, unsigned int deck_index1,
+				unsigned int deck_index2)
+{
+	// get first deck
+	dll_node_t *deck_node = get_nth_node(set_of_decks, deck_index1);
+	doubly_linked_list_t *deck1 = ((doubly_linked_list_t *)(deck_node->data));
+
+	// get second deck
+	deck_node = get_nth_node(set_of_decks, deck_index2);
+	doubly_linked_list_t *deck2 = ((doubly_linked_list_t *)(deck_node->data));
+
+	// create new deck
+	doubly_linked_list_t *new_deck = dll_create(sizeof(card_t));
+	dll_node_t *card_it1 = deck1->head, *card_it2 = deck2->head;
+
+	// merge decks
+	while (card_it1 && card_it2) {
+		dll_add_nth_node(new_deck, new_deck->size, card_it1->data);
+		dll_add_nth_node(new_deck, new_deck->size, card_it2->data);
+		card_it1 = card_it1->next;
+		card_it2 = card_it2->next;
+	}
+
+	while (card_it1) {
+		dll_add_nth_node(new_deck, new_deck->size, card_it1->data);
+		card_it1 = card_it1->next;
+	}
+
+	while (card_it2) {
+		dll_add_nth_node(new_deck, new_deck->size, card_it2->data);
+		card_it2 = card_it2->next;
+	}
+
+	// delete the decks that were merged
+	if (deck_index1 > deck_index2) {
+		DelDeck(set_of_decks, deck_index1);
+		DelDeck(set_of_decks, deck_index2);
+	} else {
+		DelDeck(set_of_decks, deck_index2);
+		DelDeck(set_of_decks, deck_index1);
+	}
+
+	// add the new deck to the set of decks
+	dll_add_nth_node(set_of_decks, set_of_decks->size, new_deck);
+
+	free(new_deck);
+}
+
+// This function splits a deck into two
 void SplitDeck(doubly_linked_list_t *set_of_decks, doubly_linked_list_t *deck,
 			   unsigned int deck_index, unsigned int split_index)
 {
@@ -104,6 +171,25 @@ void SplitDeck(doubly_linked_list_t *set_of_decks, doubly_linked_list_t *deck,
 	free(new_deck);
 }
 
+// This function reverses a deck
+void ReverseDeck(doubly_linked_list_t *deck)
+{
+	dll_node_t *card_it = deck->head;
+	dll_node_t *aux;
+
+	for (unsigned int i = 0; i < deck->size; i++) {
+		aux = card_it->next;
+		card_it->next = card_it->prev;
+		card_it->prev = aux;
+		card_it = aux;
+	}
+
+	aux = deck->head;
+	deck->head = deck->tail;
+	deck->tail = aux;
+}
+
+// This function shows a deck
 void ShowDeck(doubly_linked_list_t *deck, unsigned int deck_index)
 {
 	dll_node_t *card = deck->head;
@@ -115,6 +201,7 @@ void ShowDeck(doubly_linked_list_t *deck, unsigned int deck_index)
 	}
 }
 
+// This function sorts a deck
 void SortDeck(doubly_linked_list_t *deck)
 {
 	for (dll_node_t *card_it1 = deck->head; card_it1->next;

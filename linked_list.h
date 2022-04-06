@@ -13,5 +13,6 @@ dll_node_t *dll_remove_nth_node(doubly_linked_list_t *list, unsigned int n);
 
 void dll_free(doubly_linked_list_t **pp_list);
 
+dll_node_t *get_nth_node(doubly_linked_list_t *list, unsigned int n);
 
 #endif  // LINKED_LIST_H_

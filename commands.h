@@ -10,22 +10,22 @@ void AddDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 void DelDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 					char *argv[]);
 
-void DelCard(doubly_linked_list_t *set_of_decks, unsigned int argc,
-			 char *argv[]);
+void DelCardCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+					char *argv[]);
 
-void AddCards(doubly_linked_list_t *set_of_decks, unsigned int argc,
-			  char *argv[]);
+void AddCardsCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+					 char *argv[]);
 
-void DeckNumber(doubly_linked_list_t *set_of_decks, unsigned int argc);
+void DeckNumberCommand(doubly_linked_list_t *set_of_decks, unsigned int argc);
 
-void DeckLen(doubly_linked_list_t *set_of_decks, unsigned int argc,
-			 char *argv[]);
+void DeckLenCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+					char *argv[]);
 
-void ShuffleDeck(doubly_linked_list_t *set_of_decks, unsigned int argc,
-				 char *argv[]);
+void ShuffleDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+						char *argv[]);
 
-void MergeDecks(doubly_linked_list_t *set_of_decks, unsigned int argc,
-				char *argv[]);
+void MergeDecksCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
+					   char *argv[]);
 
 void SplitDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
 					  char *argv[]);
@@ -41,6 +41,6 @@ void ShowAllCommand(doubly_linked_list_t *set_of_decks, unsigned int argc);
 void ExitCommand(doubly_linked_list_t *set_of_decks, unsigned int argc);
 
 void SortDeckCommand(doubly_linked_list_t *set_of_decks, unsigned int argc,
-			  char *argv[]);
+					 char *argv[]);
 
 #endif  // COMMANDS_H_
