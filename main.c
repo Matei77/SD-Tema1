@@ -20,7 +20,6 @@ int main(void)
 	char command_line[COMMAND_LEN], *command = NULL, *argv[MAX_ARG_COUNT];
 
 	while (1) {
-		// parse command and arguments
 		ParseCommand(command_line, &command, argv, &argc);
 
 		if (command != NULL) {
@@ -60,6 +59,8 @@ int main(void)
 	}
 }
 
+// This function will read a string from keyboard and it will divide it into
+// multiple substrings that will represent the command and its arguments
 void ParseCommand(char *command_line, char **command, char *argv[],
 				  unsigned int *argc)
 {

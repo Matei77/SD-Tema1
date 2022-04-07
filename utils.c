@@ -31,8 +31,7 @@ int CheckIndex(doubly_linked_list_t *list, unsigned int deck_index)
 	return 0;
 }
 
-// This function adds <cards_nr> cards to a deck. The cards will be provided by
-// the user via stdin
+// This function reads and adds <cards_nr> cards to a deck
 void ReadCardsToDeck(doubly_linked_list_t *deck, int cards_nr)
 {
 	card_t card;

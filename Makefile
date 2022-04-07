@@ -11,9 +11,9 @@ build: tema1
 tema1: $(DEPEND)
 		$(CC) $(CFLAGS) $(DEPEND) -o tema1
 pack:
-		zip -FSr 313CA_IonescuMateiStefan_Tema1.zip README Makefile *.c *.h
+		zip -FSr 313CA_IonescuMateiStefan_Tema1.zip README.md Makefile *.c *.h
 
 clean:
-		rm -f tema1
+		rm -f tema1 *.o
 
 .PHONY: pack clean
